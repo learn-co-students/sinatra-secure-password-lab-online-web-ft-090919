@@ -70,7 +70,6 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/deposit' do
-    binding.pry
     if logged_in?
       @user = current_user
       @user.balance += params[:deposit].to_f
@@ -83,19 +82,27 @@ class ApplicationController < Sinatra::Base
 
   get '/withdraw' do
     if logged_in?
-
+      @user = current_user
+      erb :withdraw
     else
-
-    end
-
-    if condition
-
+      redirect '/login'
     end
   end
 
 
   post '/withdraw' do
-
+    if logged_in?
+      @user = current_user
+      if @user.balance >= params[:withdraw].to_f
+        @user.balance -= params[:withdraw].to_f
+        @user.save
+      else
+        redirect '/withdraw'
+      end
+      redirect '/account'
+    else
+      redirect '/login'
+    end
   end
 
 

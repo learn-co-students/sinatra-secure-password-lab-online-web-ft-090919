@@ -12,6 +12,10 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  get '/deposit' do
+    "Hello World"
+  end
+
   get "/signup" do
     erb :signup
   end
@@ -20,14 +24,20 @@ class ApplicationController < Sinatra::Base
     if params[:username].empty? || params[:password].empty?
       redirect to '/failure'
     else
+      # binding.pry
       user = User.find_or_create_by(username: params[:username])
-      user.balance = 0
+      if !user.password
+        user.password = params[:password]
+        user.balance = 0
+        user.save
+        # binding.pry if user.balance == nil
+      end
       redirect to '/login'
     end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
+    @user = current_user
     erb :account
   end
 
@@ -38,14 +48,18 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
 
-      user = User.find_by(username: params[:username])
-      if user && user.password == session[:password]
-            session[:user_id] = user.id
-            redirect to '/account'
-      else
-            redirect '/failure'
-      end
+    user = User.find_by(username: params[:username])
+    # binding.pry
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect to '/account'
+    else
+      redirect '/failure'
+    end
+  end
 
+  get '/deposit' do
+    erb :deposit
   end
 
   get "/failure" do

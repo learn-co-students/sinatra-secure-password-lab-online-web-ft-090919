@@ -1,0 +1,11 @@
+<h1>Deposit Funds</h1>
+
+<h4>User: <%= @user.username  %></h4><br/>
+
+<h3>How much would you like to deposit?: </h3>
+
+<form action="/deposit" method="post">
+  <input type="text" name="deposit" value="deposit"/><br />
+
+  <input type="submit" value="Deposit">
+</form>

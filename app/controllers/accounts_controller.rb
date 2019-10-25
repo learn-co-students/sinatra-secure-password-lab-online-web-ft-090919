@@ -3,14 +3,14 @@ class AccountsController < ApplicationController
 
   get '/account' do
     @user = current_user
-    erb :account
+    erb :'accounts/account'
   end
 
 
   get '/deposit' do
     if logged_in?
       @user = current_user
-      erb :deposit
+      erb :'accounts/deposit'
     else
       redirect '/login'
     end
@@ -30,7 +30,7 @@ class AccountsController < ApplicationController
   get '/withdraw' do
     if logged_in?
       @user = current_user
-      erb :withdraw
+      erb :'accounts/withdraw'
     else
       redirect '/login'
     end

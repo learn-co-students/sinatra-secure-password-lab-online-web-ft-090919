@@ -2,7 +2,7 @@
 class SessionsController < ApplicationController
 
   get "/login" do
-    erb :login
+    erb :'sessions/login'
   end
 
   post "/login" do

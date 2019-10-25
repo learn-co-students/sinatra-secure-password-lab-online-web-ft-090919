@@ -2,7 +2,7 @@
 
 We are currently working on your account.
 
-<h2>Current Balance: <%= @user.balance %></h2>
+<h2>Current Balance: $<%= @user.balance.to_f.round(2) %></h2>
 
 <h4>What would you like todo?</h4>
 

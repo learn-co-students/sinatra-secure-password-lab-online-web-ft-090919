@@ -12,10 +12,6 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
-  get '/deposit' do
-    "Hello World"
-  end
-
   get "/signup" do
     erb :signup
   end
@@ -58,13 +54,50 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/deposit' do
-    erb :deposit
-  end
 
   get "/failure" do
     erb :failure
   end
+
+
+  get '/deposit' do
+    if logged_in?
+      @user = current_user
+      erb :deposit
+    else
+      redirect '/login'
+    end
+  end
+
+  post '/deposit' do
+    binding.pry
+    if logged_in?
+      @user = current_user
+      @user.balance += params[:deposit].to_f
+      @user.save
+      redirect '/account'
+    else
+      redirect '/login'
+    end
+  end
+
+  get '/withdraw' do
+    if logged_in?
+
+    else
+
+    end
+
+    if condition
+
+    end
+  end
+
+
+  post '/withdraw' do
+
+  end
+
 
   get "/logout" do
     session.clear

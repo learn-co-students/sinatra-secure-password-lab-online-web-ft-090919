@@ -21,6 +21,7 @@ class ApplicationController < Sinatra::Base
       redirect to '/failure'
     else
       user = User.find_or_create_by(username: params[:username])
+      user.balance = 0
       redirect to '/login'
     end
   end
@@ -36,17 +37,15 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    if params[:password].empty? || params[:username].empty?
-      redirect '/failure'
-    else
+
       user = User.find_by(username: params[:username])
       if user && user.password == session[:password]
-        session[:user_id] = user.id
-        redirect to '/account'
+            session[:user_id] = user.id
+            redirect to '/account'
       else
-        redirect '/failure'
+            redirect '/failure'
       end
-    end
+
   end
 
   get "/failure" do

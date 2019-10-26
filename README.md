@@ -1,4 +1,4 @@
-# Secure Password Lab
+rake db:create_migration NAME=create_dogs# Secure Password Lab
 
 ## Objectives
 
